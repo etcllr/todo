@@ -1,8 +1,18 @@
 package com.webtech.todo.pojo;
 
-public class Todo {
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
+
+@Entity
+public class Todo implements Serializable {
+    @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "urgency")
     private String urgency;
 
     public Todo() {
