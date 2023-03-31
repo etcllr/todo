@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TO-DO LIST</string>
+    <string name="todo_label">to-do list</string>
+    <string name="todo_hint">What needs to be done ?</string>
+    <string name="todo_add">Add</string>
+    <string name="todo_cancel">Cancel</string>
+    <string name="todo_priority">Priority</string>
+    <string name="todo_create">Create</string>
+    <string name="list">Content</string>
+    <string-array name="todo_priority_array">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+</resources>
