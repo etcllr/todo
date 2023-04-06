@@ -18,5 +18,5 @@ public abstract class TodoDatabase extends RoomDatabase {
         return Room.databaseBuilder(context, TodoDatabase.class, DB_NAME).allowMainThreadQueries().build();
     }
 
-    public abstract TodoDAO todoDAO();
+    public abstract TodoDAO todoDao();
 }

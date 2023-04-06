@@ -9,6 +9,7 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.webtech.todo.database.TodoDatabase;
 import com.webtech.todo.pojo.Todo;
 
 public class CreateActivity extends AppCompatActivity {
@@ -17,6 +18,8 @@ public class CreateActivity extends AppCompatActivity {
     private Button createButton;
     private Button cancelButton;
     private EditText titleEditText;
+    private CreateActivity context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,8 @@ public class CreateActivity extends AppCompatActivity {
             Todo todo = new Todo();
             todo.setName(titleEditText.getText().toString());
             todo.setUrgency(urgencySpinner.getSelectedItem().toString());
-            todo.setId(todoListSize + 1);
+            TodoDatabase.getDb(context).todoDao().add(todo);
+            finish();
         });
 
         cancelButton.setOnClickListener(v -> {

@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import com.webtech.todo.pojo.Todo;
 
+import java.util.List;
+
 @Dao
 public interface TodoDAO {
 
@@ -15,10 +17,10 @@ public interface TodoDAO {
     public Todo find(int id);
 
     @Query("SELECT * FROM todo")
-    public Todo[] list();
+    public List<Todo> list();
 
     @Insert
-    public void insert(Todo... todo);
+    public void add(Todo... todo);
 
     @Update
     public void update(Todo... todo);

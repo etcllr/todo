@@ -1,9 +1,11 @@
 package com.webtech.todo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,10 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.webtech.todo.database.TodoDatabase;
 import com.webtech.todo.pojo.Todo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        new TodoAsyncTask().execute();
+    }
+
     public List<Todo> initializeData() {
-        todoList.add(new Todo(1, "Buy Milk", "High"));
-        todoList.add(new Todo(2, "Buy Bread", "Medium"));
-        todoList.add(new Todo(3, "Buy Eggs", "Low"));
-        return todoList;
+        return TodoDatabase.getDb(context).todoDao().list();
     }
 
     public List<String> createItems(List<Todo> todoList) {
@@ -67,5 +75,23 @@ public class MainActivity extends AppCompatActivity {
             items.add(todo.getName() + " - " + todo.getUrgency() + "\n");
         }
         return items;
+    }
+
+    public class TodoAsyncTask extends AsyncTask<Nullable, Nullable, List<Todo>> {
+        @Override
+        protected List<Todo> doInBackground(Nullable... nullables) {
+            return TodoDatabase.getDb(context).todoDao().list();
+        }
+
+        @Override
+        protected void onPostExecute(List<Todo> todos) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (Todo todo : todos) {
+                stringBuilder.append(String.format("%s // %s\n", todo.getName(), todo.getUrgency()));
+            }
+
+            listContent.setText(stringBuilder.toString());
+        }
     }
 }
